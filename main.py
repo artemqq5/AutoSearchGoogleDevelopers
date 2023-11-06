@@ -49,7 +49,6 @@ def worker(first_combination, second_combination, thrid_combination, session):
 
 def main():
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    alphabet = 'ai'
     session = HTMLSession()
     # manager = Manager()
     # emails_list = manager.list()
