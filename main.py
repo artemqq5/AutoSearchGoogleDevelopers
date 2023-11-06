@@ -28,7 +28,7 @@ def worker(first_combination, second_combination, thrid_combination, session, em
 
         r = session.get(url)
         about = r.html.find('.pSEeg')
-        email = None
+        email = about[0].text
         phone_number = None
 
         for args in about:
