@@ -11,8 +11,8 @@ def generate_combinations(alphabet, length):
     return [''.join(comb) for comb in itertools.product(alphabet, repeat=length)]
 
 
-def worker(first_combination, second_combination, thrid_combination, session, emails_list):
-    emails_list[0] = emails_list[0] + 1
+def worker(first_combination, second_combination, thrid_combination, session):
+    # emails_list[0] = emails_list[0] + 1
 
     package = ""
     try:
@@ -39,32 +39,33 @@ def worker(first_combination, second_combination, thrid_combination, session, em
 
         print(f"({package})  -  {email}, {url}")
         MainDataBase().add_contact(email, phone_number)
-        emails_list.append(f"({package})  -  {email}, {url}")
+        # emails_list.append(f"({package})  -  {email}, {url}")
 
     except Exception as e:
-        print(f"{package} - none | {e}")
+        # print(f"{package} - none | {e}")
+        pass
 
 
 def main():
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
     session = HTMLSession()
-    manager = Manager()
-    emails_list = manager.list()
-    emails_list.append(0)
+    # manager = Manager()
+    # emails_list = manager.list()
+    # emails_list.append(0)
 
     with ProcessPoolExecutor() as executor:
         for combinations_length in range(1, len(alphabet) + 1):
             for first_combination in generate_combinations(alphabet, combinations_length):
-                executor.submit(worker, first_combination, None, None, session, emails_list)
+                executor.submit(worker, first_combination, None, None, session)
                 for combinations_length2 in range(1, len(alphabet) + 1):
                     for second_combination in generate_combinations(alphabet, combinations_length2):
-                        executor.submit(worker, first_combination, second_combination, None, session, emails_list)
+                        executor.submit(worker, first_combination, second_combination, None, session)
                         for combinations_length3 in range(1, len(alphabet) + 1):
                             for third_combination in generate_combinations(alphabet, combinations_length3):
                                 executor.submit(worker, first_combination, second_combination, third_combination,
-                                                session, emails_list)
+                                                session)
 
-    print(emails_list)
+    # print(emails_list)
 
 
 if __name__ == '__main__':
