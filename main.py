@@ -39,7 +39,7 @@ def worker(first_combination, second_combination, thrid_combination, session):
                 phone_number = args.text
 
         print(f"({package})  -  {email}, {url}")
-        MainDataBase().add_contact(email, phone_number)
+        MainDataBase().add_contact(email, phone_number, package)
         # emails_list.append(f"({package})  -  {email}, {url}")
 
     except Exception as e:
