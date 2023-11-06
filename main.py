@@ -8,7 +8,8 @@ from db_manager import MainDataBase
 
 
 def generate_combinations(alphabet, length):
-    return [''.join(comb) for comb in itertools.product(alphabet, repeat=length)]
+    for comb in itertools.product(alphabet, repeat=length):
+        yield ''.join(comb)
 
 
 def worker(first_combination, second_combination, thrid_combination, session):
@@ -42,7 +43,7 @@ def worker(first_combination, second_combination, thrid_combination, session):
         # emails_list.append(f"({package})  -  {email}, {url}")
 
     except Exception as e:
-        # print(f"{package} - none | {e}")
+        print(f"{package} - none | {e}")
         pass
 
 
@@ -53,7 +54,7 @@ def main():
     # emails_list = manager.list()
     # emails_list.append(0)
 
-    with ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor(max_workers=2) as executor:
         for combinations_length in range(1, len(alphabet) + 1):
             for first_combination in generate_combinations(alphabet, combinations_length):
                 executor.submit(worker, first_combination, None, None, session)
