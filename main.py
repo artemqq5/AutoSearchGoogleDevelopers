@@ -54,7 +54,7 @@ def main():
     # emails_list = manager.list()
     # emails_list.append(0)
 
-    with ProcessPoolExecutor(max_workers=2) as executor:
+    with ProcessPoolExecutor(max_workers=1) as executor:
         for combinations_length in range(1, len(alphabet) + 1):
             for first_combination in generate_combinations(alphabet, combinations_length):
                 executor.submit(worker, first_combination, None, None, session)
