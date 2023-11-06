@@ -16,17 +16,17 @@ def worker(first_combination, second_combination, thrid_combination, session):
     # emails_list[0] = emails_list[0] + 1
 
     package = ""
-    try:
-        if thrid_combination is not None:
-            url = f"https://play.google.com/store/apps/details?id={first_combination}.{second_combination}.{thrid_combination}"
-            package = f"{first_combination}.{second_combination}.{thrid_combination}"
-        elif second_combination is not None:
-            url = f"https://play.google.com/store/apps/details?id={first_combination}.{second_combination}"
-            package = f"{first_combination}.{second_combination}"
-        else:
-            url = f"https://play.google.com/store/apps/details?id={first_combination}"
-            package = f"{first_combination}"
+    if thrid_combination is not None:
+        url = f"https://play.google.com/store/apps/details?id={first_combination}.{second_combination}.{thrid_combination}"
+        package = f"{first_combination}.{second_combination}.{thrid_combination}"
+    elif second_combination is not None:
+        url = f"https://play.google.com/store/apps/details?id={first_combination}.{second_combination}"
+        package = f"{first_combination}.{second_combination}"
+    else:
+        url = f"https://play.google.com/store/apps/details?id={first_combination}"
+        package = f"{first_combination}"
 
+    try:
         r = session.get(url)
         about = r.html.find('.pSEeg')
         email = about[0].text
@@ -49,6 +49,7 @@ def worker(first_combination, second_combination, thrid_combination, session):
 
 def main():
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    alphabet = 'ai'
     session = HTMLSession()
     # manager = Manager()
     # emails_list = manager.list()
