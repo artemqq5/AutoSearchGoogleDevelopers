@@ -32,7 +32,6 @@ def worker(first_combination, second_combination, thrid_combination, session):
     try:
         r = session.get(url)
         about = r.html.find('.pSEeg')
-        print(about)
         email = about[0].text
         phone_number = None
 
@@ -42,9 +41,8 @@ def worker(first_combination, second_combination, thrid_combination, session):
             if "+" in args.text:
                 phone_number = str(args.text)
 
-        MainDataBase().add_contact(email, phone_number, package)
         print(f"#{user_list[0]} ({package})  -  {email}, {phone_number}, {url}")
-        # emails_list.append(f"({package})  -  {email}, {url}")
+        MainDataBase().add_contact(email, phone_number, package)
 
     except Exception as e:
         print(f"#{user_list[0]} ({package}) - none | {e}")
