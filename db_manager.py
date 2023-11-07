@@ -18,7 +18,7 @@ class MainDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `contacts` (`email`, `phone_number`, `package`) VALUES (%s, %s);'''
+                    _command = f'''INSERT INTO `contacts` (`email`, `phone_number`, `package`) VALUES (%s, %s, %s);'''
                     cursor.execute(_command, (email, phone_number, package))
                 connection.commit()
                 return cursor.lastrowid

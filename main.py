@@ -1,4 +1,5 @@
 import itertools
+import time
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import Manager
 
@@ -31,17 +32,18 @@ def worker(first_combination, second_combination, thrid_combination, session):
     try:
         r = session.get(url)
         about = r.html.find('.pSEeg')
+        print(about)
         email = about[0].text
         phone_number = None
 
         for args in about:
             if "@" in args.text:
-                email = args.text
+                email = str(args.text)
             if "+" in args.text:
-                phone_number = args.text
+                phone_number = str(args.text)
 
-        print(f"#{user_list[0]} ({package})  -  {email}, {url}")
         MainDataBase().add_contact(email, phone_number, package)
+        print(f"#{user_list[0]} ({package})  -  {email}, {phone_number}, {url}")
         # emails_list.append(f"({package})  -  {email}, {url}")
 
     except Exception as e:
@@ -68,4 +70,9 @@ def main():
 
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     main()
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+    print(f"time doing: {elapsed_time} seconds")
+    
