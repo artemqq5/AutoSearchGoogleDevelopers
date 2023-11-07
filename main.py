@@ -6,6 +6,8 @@ from requests_html import HTMLSession
 
 from db_manager import MainDataBase
 
+user_list = [0]
+
 
 def generate_combinations(alphabet, length):
     for comb in itertools.product(alphabet, repeat=length):
@@ -13,7 +15,7 @@ def generate_combinations(alphabet, length):
 
 
 def worker(first_combination, second_combination, thrid_combination, session):
-    # emails_list[0] = emails_list[0] + 1
+    user_list[0] = user_list[0] + 1
 
     package = ""
     if thrid_combination is not None:
@@ -38,21 +40,19 @@ def worker(first_combination, second_combination, thrid_combination, session):
             if "+" in args.text:
                 phone_number = args.text
 
-        print(f"({package})  -  {email}, {url}")
+        print(f"#{user_list[0]} ({package})  -  {email}, {url}")
         MainDataBase().add_contact(email, phone_number, package)
         # emails_list.append(f"({package})  -  {email}, {url}")
 
     except Exception as e:
-        print(f"{package} - none | {e}")
+        print(f"#{user_list[0]} ({package}) - none | {e}")
         pass
 
 
 def main():
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    alphabet = 'ai'
     session = HTMLSession()
-    # manager = Manager()
-    # emails_list = manager.list()
-    # emails_list.append(0)
 
     for combinations_length in range(1, len(alphabet) + 1):
         for first_combination in generate_combinations(alphabet, combinations_length):
@@ -64,7 +64,7 @@ def main():
                         for third_combination in generate_combinations(alphabet, combinations_length3):
                             worker(first_combination, second_combination, third_combination, session)
 
-    # print(emails_list)
+    print(user_list)
 
 
 if __name__ == '__main__':
