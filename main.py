@@ -51,18 +51,19 @@ def worker(first_combination, second_combination, thrid_combination, session):
 
 def main():
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    alphabet = 'ai'
+    # alphabet = 'ai'
     session = HTMLSession()
 
+    # searching only for one-two package
     for combinations_length in range(1, len(alphabet) + 1):
         for first_combination in generate_combinations(alphabet, combinations_length):
             worker(first_combination, None, None, session)
             for combinations_length2 in range(1, len(alphabet) + 1):
                 for second_combination in generate_combinations(alphabet, combinations_length2):
                     worker(first_combination, second_combination, None, session)
-                    for combinations_length3 in range(1, len(alphabet) + 1):
-                        for third_combination in generate_combinations(alphabet, combinations_length3):
-                            worker(first_combination, second_combination, third_combination, session)
+                    # for combinations_length3 in range(1, len(alphabet) + 1):
+                    #     for third_combination in generate_combinations(alphabet, combinations_length3):
+                    #         worker(first_combination, second_combination, third_combination, session)
 
     print(user_list)
 
